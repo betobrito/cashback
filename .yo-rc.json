@@ -1,0 +1,42 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "br.com.beblue",
+      "nativeLanguage": "pt-br"
+    },
+    "jhipsterVersion": "6.1.2",
+    "applicationType": "microservice",
+    "baseName": "cashback",
+    "packageName": "br.com.beblue",
+    "packageFolder": "br/com/beblue",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OWE3NzYzNTM4ZGZkODFiN2ZkMzE4ZjU1ZWQxNDcwNzdiODBhMmRkNTRkNGJlMzM4NzA2YjViZWM0ZTBmNWU0NDk3NjY3YjZhZTRjMWVlNzZhMTM0MzI4MTk0MjRlNTBkNWYxMmNlZGYwY2M5M2RlZGNlZGZkMDRlNDk2NzdhODc=",
+    "testFrameworks": [
+      "cucumber"
+    ],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "pt-br",
+    "languages": [
+      "pt-br"
+    ],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
