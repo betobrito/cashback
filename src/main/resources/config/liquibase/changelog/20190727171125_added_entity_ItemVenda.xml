@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <!--
+        Added the entity Item Venda.
+    -->
+    <changeSet id="20190727171125-1" author="jhipster">
+        <createTable tableName="item_venda">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="id_venda" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_disco" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="quantidade" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="valor_cashback" type="decimal(21,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="20190727171125-1-relations" author="jhipster">
+        <addForeignKeyConstraint baseColumnNames="id_venda"
+                                 baseTableName="item_venda"
+                                 constraintName="fk_venda_item_venda"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="venda"/>
+        <addForeignKeyConstraint baseColumnNames="id_disco"
+                                 baseTableName="item_venda"
+                                 constraintName="fk_disco_item_venda"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="disco"/>
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+
+</databaseChangeLog>

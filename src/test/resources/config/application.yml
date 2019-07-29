@@ -25,15 +25,14 @@ spring:
     name: cashback
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:cashback;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MULTI_THREADED=FALSE
-    name:
-    username:
+    url: jdbc:postgresql://localhost:5432/cashback
+    username: cashback
     password:
     hikari:
       auto-commit: false
   jpa:
-    database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-    database: H2
+    database-platform: io.github.jhipster.domain.util.FixedPostgreSQL95Dialect
+    database: POSTGRESQL
     open-in-view: false
     show-sql: false
     hibernate:
@@ -51,6 +50,7 @@ spring:
       hibernate.jdbc.time_zone: UTC
   liquibase:
     contexts: test
+    enabled: false
   mail:
     host: localhost
   main:
@@ -92,7 +92,7 @@ jhipster:
     use-json-format: true # By default, logs are in Json format
     # To test logstash appender
     logstash:
-      enabled: true
+      enabled: false
       host: localhost
       port: 5000
       queue-size: 512
