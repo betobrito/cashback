@@ -1,12 +1,12 @@
 package br.com.beblue.cucumber.stepdefs;
 
 import br.com.beblue.CashbackApp;
-import br.com.beblue.config.DatabaseConfiguration;
 import br.com.beblue.cucumber.montador.ContextoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -53,9 +54,15 @@ public abstract class StepDefs {
             .accept(APPLICATION_JSON_UTF8));
     }
 
-//    protected ResultActions mockGet(String url) throws Exception {
-//        return perform("", get(url), APPLICATION_JSON_UTF8, APPLICATION_JSON_UTF8);
-//    }
+    private ResultActions performGet(String url, MediaType contentType, MediaType accept, Object... uriVars) throws Exception {
+        return restMockMvc.perform(MockMvcRequestBuilders.get(url, uriVars)
+                            .contentType(contentType)
+                            .accept(accept));
+    }
+
+    protected ResultActions mockGet(String url, Object... uriVars) throws Exception {
+        return performGet(url, APPLICATION_JSON_UTF8, APPLICATION_JSON_UTF8, uriVars);
+    }
 
     private Object obterNovaInstancia(Class resourceClass, Object service) {
         try {

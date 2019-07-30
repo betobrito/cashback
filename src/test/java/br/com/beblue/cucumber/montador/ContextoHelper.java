@@ -1,7 +1,5 @@
 package br.com.beblue.cucumber.montador;
 
-import br.com.beblue.domain.Disco;
-import br.com.beblue.domain.Genero;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
