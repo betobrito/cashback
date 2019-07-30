@@ -31,4 +31,8 @@ public class ContextoHelper {
     public void inserirGenero(long id, String descricao, String idSpotify) {
         jdbcTemplate.update("insert into public.genero (id, descricao, id_genero_spotify) values (?,?,?)", id, descricao, idSpotify);
     }
+
+    public void inserirCashBack(long id, long idGenero, Integer diaSemana, BigDecimal porcentagem) {
+        jdbcTemplate.update("insert into public.cashback (id, id_genero, dia_semana, porcentagem) values (?, ?, ?, ?);", id, idGenero, diaSemana, porcentagem);
+    }
 }

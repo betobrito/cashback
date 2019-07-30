@@ -7,6 +7,30 @@ public interface ConstantesTeste {
     long ID_TRES = 3L;
     long ID_QUATRO = 4L;
     long ID_CINCO = 5L;
+    long ID_SEIS = 6L;
+    long ID_SETE = 7L;
+    long ID_OITO = 8L;
+    long ID_NOVE = 9L;
+    long ID_DEZ = 10L;
+    long ID_ONZE = 11L;
+    long ID_DOZE = 11L;
+    long ID_TREZE = 13L;
+    long ID_QUATORZE = 14L;
+    long ID_QUINZE = 15L;
+    long ID_DEZESEIS =16L;
+    long ID_DEZESETE = 17L;
+    long ID_DEZOITO = 18L;
+    long ID_DEZENOVE = 19L;
+    long ID_VINTE = 20L;
+    long ID_VINTE_UM = 21L;
+
+    Integer DOMINGO = 1;
+    Integer SEGUNDA = 2;
+    Integer TERCA = 3;
+    Integer QUARTA = 4;
+    Integer QUINTA = 5;
+    Integer SEXTA = 6;
+    Integer SABADO = 7;
 
     String POP = "POP";
     String MPB = "MPB";
@@ -24,4 +48,20 @@ public interface ConstantesTeste {
     double PRECO_5_5 = 5.5;
     double PRECO_15_5 = 15.5;
     double PRECO_4_5 = 4.5;
+
+    double VINTE_CINCO_PORCENTO = 0.25;
+    double SETE_PORCENTO = 0.07;
+    double SEIS_PORCENTO = 0.06;
+    double DOIS_PORCENTO = 0.02;
+    double DEZ_PORCENTO = 0.10;
+    double QUINZE_PORCENTO = 0.15;
+    double VINTE_PORCENTO = 0.20;
+    double TRINTA_PORCENTO = 0.30;
+    double CINCO_PORCENTO = 0.05;
+    double TRINTA_CINCO_PORCENTO = 0.35;
+    double TRES_PORCENTO = 0.03;
+    double OITO_PORCENTO = 0.08;
+    double TREZE_PORCENTO = 0.13;
+    double DEZOITO_PORCENTO = 0.18;
+    double QUARENTA_PORCENTO = 0.40;
 }
