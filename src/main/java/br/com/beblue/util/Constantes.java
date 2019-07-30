@@ -36,6 +36,7 @@ public interface Constantes {
         int LIMITE_100_REAIS_RANDOM = 10001;
         int ESCALA_DOIS_DIGITOS = 2;
         int PRIMEIRO_REGISTRO = 0;
+        int VALOR_CASHBACK_INICIAL_ZERO = 0;
     }
 
 }

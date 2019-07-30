@@ -15,13 +15,14 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static br.com.beblue.util.Constantes.Outros.VALOR_CASHBACK_INICIAL_ZERO;
+
 @Entity
 @Table(name = "venda")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Venda implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    public static final int VALOR_CASHBACK_INICIAL_ZERO = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")

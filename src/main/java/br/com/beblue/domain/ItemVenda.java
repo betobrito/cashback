@@ -1,17 +1,15 @@
 package br.com.beblue.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import static br.com.beblue.domain.Venda.VALOR_CASHBACK_INICIAL_ZERO;
+import static br.com.beblue.util.Constantes.Outros.VALOR_CASHBACK_INICIAL_ZERO;
 
 @Entity
 @Table(name = "item_venda")

@@ -2,6 +2,8 @@ package br.com.beblue.cucumber.stepdefs;
 
 import br.com.beblue.domain.Venda;
 import br.com.beblue.domain.dto.DiscoDTO;
+import br.com.beblue.domain.dto.ParametroConsultaDTO;
+import br.com.beblue.domain.dto.VendaDTO;
 import br.com.beblue.shared.JsonConverter;
 import cucumber.api.java.Before;
 import cucumber.api.java.pt.Dado;
@@ -10,14 +12,19 @@ import cucumber.api.java.pt.Entao;
 import io.cucumber.datatable.DataTable;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static br.com.beblue.shared.ConstantesTeste.DUZENTOS_REGISTROS;
+import static br.com.beblue.shared.ConstantesTeste.QUANTIDADE_UM;
 import static br.com.beblue.util.Constantes.MensagemSistema.MSG_BASE_ALIMENTADA_COM_SUCESSO;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FuncionalidadesStepDefs extends StepDefs {
+
+    public static final String HIFEN = "-";
 
     @Before
     public void inicializar() {
@@ -123,5 +130,28 @@ public class FuncionalidadesStepDefs extends StepDefs {
         Venda venda = JsonConverter.asJsonToClass(this.actions.andReturn().getResponse().getContentAsString(), Venda.class);
         assertNotNull(dataVenda);
         assertEquals(dataVenda, venda.getDataVenda().toString());
+    }
+
+    @Dado("que foi informado um periodo de {string} a {string} e paginacao retornando os primeiros {string} registros")
+    public void queFoiInformadoUmPeriodoDeAEPaginacaoRetornandoOsPrimeirosRegistros(String dataInicial, String dataFinal, String quantidadeRegistros) throws Exception{
+        ParametroConsultaDTO parametroConsultaDTO = gerarParamentroConsultaDTO(dataInicial, dataFinal, quantidadeRegistros);
+        mockPost("/api/vendas/periodo", parametroConsultaDTO);
+    }
+
+    @Entao("deveria retonar uma lista com uma venda e com data em {string}")
+    public void deveriaRetonarUmaListaComUmaVendaEComDataEm(String data) throws UnsupportedEncodingException {
+        String retorno = this.actions.andReturn().getResponse().getContentAsString();
+        assertTrue(retorno.contains(data));
+    }
+
+    private ParametroConsultaDTO gerarParamentroConsultaDTO(String dataInicial, String dataFinal, String quantidadeRegistros) {
+        ParametroConsultaDTO parametroConsultaDTO = new ParametroConsultaDTO();
+        String[] dataInicialSplitada = dataInicial.split(HIFEN);
+        parametroConsultaDTO.setDataInicial(LocalDate.of(Integer.parseInt(dataInicialSplitada[0]), Integer.parseInt(dataInicialSplitada[1]), Integer.parseInt(dataInicialSplitada[2])));
+        String[] dataFinalSplitada = dataFinal.split(HIFEN);
+        parametroConsultaDTO.setDataFinal(LocalDate.of(Integer.parseInt(dataFinalSplitada[0]), Integer.parseInt(dataFinalSplitada[1]), Integer.parseInt(dataFinalSplitada[2])));
+        parametroConsultaDTO.setPagina(0);
+        parametroConsultaDTO.setTamanho(Integer.parseInt(quantidadeRegistros));
+        return parametroConsultaDTO;
     }
 }
