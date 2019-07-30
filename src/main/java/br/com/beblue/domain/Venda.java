@@ -53,6 +53,11 @@ public class Venda implements Serializable {
         this.id = id;
     }
 
+    public Venda id(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public BigDecimal getValorTotalCashback() {
         return valorTotalCashback;
     }
