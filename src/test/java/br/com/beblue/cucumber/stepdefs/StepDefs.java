@@ -64,19 +64,6 @@ public abstract class StepDefs {
         return performGet(url, APPLICATION_JSON_UTF8, APPLICATION_JSON_UTF8, uriVars);
     }
 
-    private Object obterNovaInstancia(Class resourceClass, Object service) {
-        try {
-            Class<?> serviceClasse = service.getClass().getInterfaces()[2];
-            return resourceClass.getConstructor(serviceClasse).newInstance(service);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-//    protected void setarMockMvc(Class resourceClass, Object service) {
-//        restMockMvc = obterMockMvcBuilder(resourceClass, service).build();
-//    }
-
     protected void mockPost(String url, Object content, Object... urlVars) throws Exception {
         actions = perform(content, post(url, urlVars));
     }

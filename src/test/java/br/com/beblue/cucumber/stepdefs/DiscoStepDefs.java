@@ -96,7 +96,7 @@ public class DiscoStepDefs extends StepDefs {
     }
 
     @Entao("deveria retornar uma lista vazia")
-    public void deveriaRetornarUmaListaVazia() {
-
+    public void deveriaRetornarUmaListaVazia() throws Exception{
+        this.actions.andExpect(MockMvcResultMatchers.jsonPath("$.[*]").isEmpty());
     }
 }

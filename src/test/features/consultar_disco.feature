@@ -8,7 +8,7 @@ Funcionalidade: Consultar Disco por ID
     Cenario: 01 - Consultar Disco Existente
         Dado que o disco informado possua id "1"
         Entao deveria retornar um disco com descricao "AC/DC 101"
-        E que pertenca ao genero "Rock"
+        E que pertenca ao genero "ROCK"
 
     Cenario: 02 - Consultar Disco Inexistente
         Dado que o disco informado possua id "10"
