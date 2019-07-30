@@ -5,4 +5,5 @@ public interface MontadorContexto {
     void adicionarGeneros();
     void adicionarDiscos();
     void adicionarCashBackSemanal();
+    void adicionarVenda();
 }

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Component
 public class ContextoHelperImpl implements ContextoHelper{
@@ -38,5 +39,15 @@ public class ContextoHelperImpl implements ContextoHelper{
 
     public Integer consultarQuantidadeRegistrosNaBaseDiscos() {
         return jdbcTemplate.queryForObject("select count(*) from public.disco", Integer.class);
+    }
+
+    @Override
+    public void inserirVenda(long id, BigDecimal valorCashback, LocalDate dataVenda) {
+        jdbcTemplate.update("insert into public.venda (id, valor_total_cashback, data_venda) values (?, ?, ?)", id, valorCashback, dataVenda);
+    }
+
+    @Override
+    public void inserirItemVenda(long id, long idVenda, long idDisco, int quantidade, BigDecimal valorCashback) {
+        jdbcTemplate.update("insert into public.item_venda (id, id_venda, id_disco, quantidade, valor_cashback) values (?, ?, ?, ?, ?)", id, idVenda, idDisco, quantidade, valorCashback);
     }
 }

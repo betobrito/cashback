@@ -1,5 +1,6 @@
 package br.com.beblue.cucumber.stepdefs;
 
+import br.com.beblue.domain.Venda;
 import br.com.beblue.domain.dto.DiscoDTO;
 import br.com.beblue.shared.JsonConverter;
 import cucumber.api.java.Before;
@@ -13,8 +14,7 @@ import java.util.List;
 
 import static br.com.beblue.shared.ConstantesTeste.DUZENTOS_REGISTROS;
 import static br.com.beblue.util.Constantes.MensagemSistema.MSG_BASE_ALIMENTADA_COM_SUCESSO;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class FuncionalidadesStepDefs extends StepDefs {
@@ -32,6 +32,11 @@ public class FuncionalidadesStepDefs extends StepDefs {
     @E("^que foram inseridos discos$")
     public void queForamInseridosDiscos() throws Throwable {
         montadorContexto.adicionarDiscos();
+    }
+
+    @E("que foram realizadas vendas")
+    public void queForamRealizadasVendas() {
+        montadorContexto.adicionarVenda();
     }
 
     @Dado("que o disco informado possua id {string}")
@@ -106,8 +111,17 @@ public class FuncionalidadesStepDefs extends StepDefs {
         assertEquals(DUZENTOS_REGISTROS, quantidadeRegistrosConsultada);
     }
 
-    @E("que foram realizadas vendas")
-    public void queForamRealizadasVendas() {
+    @Dado("que a venda informada possua id {string}")
+    public void queAVendaInformadaPossuaId(String idVenda) throws Exception{
+        this.actions = mockGet("/api/vendas/{id}", idVenda);
+    }
 
+    @Entao("deveria retonar uma venda com data em {string}")
+    public void deveriaRetonarUmaVenda(String dataVenda) throws Exception{
+        this.actions.andExpect(status().isOk());
+
+        Venda venda = JsonConverter.asJsonToClass(this.actions.andReturn().getResponse().getContentAsString(), Venda.class);
+        assertNotNull(dataVenda);
+        assertEquals(dataVenda, venda.getDataVenda().toString());
     }
 }

@@ -4,12 +4,15 @@ import br.com.beblue.cucumber.util.ContextoHelper;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static br.com.beblue.shared.ConstantesTeste.*;
 
 @Component
 public class MontadorContextoImpl  implements MontadorContexto{
 
+    public static final LocalDate DATA_VENDA_30_07_2019 = LocalDate.of(2019, 7, 30);
+    public static final BigDecimal VALOR_CASHBACK = new BigDecimal(1.23);
     private ContextoHelper contextoHelper;
 
     public MontadorContextoImpl(ContextoHelper contextoHelper) {
@@ -39,6 +42,12 @@ public class MontadorContextoImpl  implements MontadorContexto{
         inserirCashBackGeneroMpb();
         inserirCashBackGeneroClassic();
         inserirCashBackGeneroRock();
+    }
+
+    @Override
+    public void adicionarVenda() {
+        this.contextoHelper.inserirVenda(ID_UM, VALOR_CASHBACK, DATA_VENDA_30_07_2019);
+        this.contextoHelper.inserirItemVenda(ID_UM, ID_UM, ID_UM, QUANTIDADE_UM, VALOR_CASHBACK);
     }
 
     private void inserirCashBackGeneroRock() {

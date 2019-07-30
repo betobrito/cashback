@@ -73,4 +73,6 @@ public interface ConstantesTeste {
     double QUARENTA_PORCENTO = 0.40;
 
     Integer DUZENTOS_REGISTROS = 200;
+
+    Integer QUANTIDADE_UM = 1;
 }
