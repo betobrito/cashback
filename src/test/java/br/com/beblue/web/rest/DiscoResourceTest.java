@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.beblue.shared.ConstantesTeste.ID_UM;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
@@ -44,9 +45,9 @@ public class DiscoResourceTest {
 
     @Test
     public void deveriaChamarMetodoConsultarDiscoDelegandoParaOhServicoRetornandoUmDisco() {
-        when(discoServiceMock.consultarPorId(1L)).thenReturn(optionalDisco);
+        when(discoServiceMock.consultarPorId(ID_UM)).thenReturn(optionalDisco);
 
-        ResponseEntity<Disco> resultado = discoResource.consultarDisco(1L);
+        ResponseEntity<Disco> resultado = discoResource.consultarDisco(ID_UM);
 
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertSame(disco, resultado.getBody());
@@ -54,18 +55,18 @@ public class DiscoResourceTest {
 
     @Test
     public void deveriaChamarMetodoConsultarDiscoDelegandoParaOhServicoRetornandoNulo() {
-        when(discoServiceMock.consultarPorId(1L)).thenReturn(Optional.ofNullable(null));
+        when(discoServiceMock.consultarPorId(ID_UM)).thenReturn(Optional.ofNullable(null));
 
-        ResponseEntity<Disco> resultado = discoResource.consultarDisco(1L);
+        ResponseEntity<Disco> resultado = discoResource.consultarDisco(ID_UM);
 
         assertEquals(HttpStatus.NOT_FOUND, resultado.getStatusCode());
     }
 
     @Test
     public void deveriaChamarMetodoConsultarDiscosPorGeneroDelegandoParaOhServicoRetornandoListaComDiscos() {
-        when(discoServiceMock.consultarDiscosPorGenero(1L, Pageable.unpaged())).thenReturn(paginacaoDiscos);
+        when(discoServiceMock.consultarDiscosPorGenero(ID_UM, Pageable.unpaged())).thenReturn(paginacaoDiscos);
 
-        ResponseEntity<List<Disco>> resultado = discoResource.consultarDiscosPorGenero(1L, Pageable.unpaged());
+        ResponseEntity<List<Disco>> resultado = discoResource.consultarDiscosPorGenero(ID_UM, Pageable.unpaged());
 
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertEquals(discos, resultado.getBody());
@@ -74,9 +75,9 @@ public class DiscoResourceTest {
     @Test
     public void deveriaChamarMetodoConsultarDiscosPorGeneroDelegandoParaOhServicoRetornandoListaSemDiscos() {
         atribuirPaginacaoVaziaIhLimpandoListaDiscos();
-        when(discoServiceMock.consultarDiscosPorGenero(1L, Pageable.unpaged())).thenReturn(paginacaoDiscos);
+        when(discoServiceMock.consultarDiscosPorGenero(ID_UM, Pageable.unpaged())).thenReturn(paginacaoDiscos);
 
-        ResponseEntity<List<Disco>> resultado = discoResource.consultarDiscosPorGenero(1L, Pageable.unpaged());
+        ResponseEntity<List<Disco>> resultado = discoResource.consultarDiscosPorGenero(ID_UM, Pageable.unpaged());
 
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertEquals(discos, resultado.getBody());

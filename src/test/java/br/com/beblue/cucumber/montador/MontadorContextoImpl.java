@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+import static br.com.beblue.shared.ConstantesTeste.*;
+
 @Component
 public class MontadorContextoImpl  implements MontadorContexto{
 
-    protected ContextoHelper contextoHelper;
+    private ContextoHelper contextoHelper;
 
     public MontadorContextoImpl(ContextoHelper contextoHelper) {
         this.contextoHelper = contextoHelper;
@@ -16,25 +18,19 @@ public class MontadorContextoImpl  implements MontadorContexto{
 
     @Override
     public void adicionarGeneros() {
-        this.contextoHelper.inserirGenero(1L, "POP", "pop");
-        this.contextoHelper.inserirGenero(2L, "MPB", "mpb");
-        this.contextoHelper.inserirGenero(3L, "CLASSIC", "classical");
-        this.contextoHelper.inserirGenero(4L, "ROCK", "rock");
+        this.contextoHelper.inserirGenero(ID_UM, POP, POP);
+        this.contextoHelper.inserirGenero(ID_DOIS, MPB, MPB);
+        this.contextoHelper.inserirGenero(ID_TRES, CLASSIC, CLASSIC);
+        this.contextoHelper.inserirGenero(ID_QUATRO, ROCK, ROCK);
     }
 
     @Override
     public void adicionarDiscos() {
-        this.contextoHelper.inserirDisco(1L, "AC/DC 101", new BigDecimal(20.5), 4L);
-        this.contextoHelper.inserirDisco(2L, "Enema Of The State - Blink 182", new BigDecimal(30.5), 4L);
-        this.contextoHelper.inserirDisco(3L, "Esplendor - Djavan", new BigDecimal(5.5), 2L);
-        this.contextoHelper.inserirDisco(4L, "iCollection - Kid Abelha", new BigDecimal(15.5), 2L);
-        this.contextoHelper.inserirDisco(5L, "Uma nora pra cada dia - MC Kevinho", new BigDecimal(4.5), 1L);
+        this.contextoHelper.inserirDisco(ID_UM, DESCRICAO_AC_DC_101, new BigDecimal(PRECO_20_5), ID_QUATRO);
+        this.contextoHelper.inserirDisco(ID_DOIS, DESCRICAO_ENEMA_OF_THE_STATE_BLINK_182, new BigDecimal(PRECO_30_5), ID_QUATRO);
+        this.contextoHelper.inserirDisco(ID_TRES, DESCRICAO_ESPLENDOR_DJAVAN, new BigDecimal(PRECO_5_5), ID_DOIS);
+        this.contextoHelper.inserirDisco(ID_QUATRO, DESCRICAO_I_COLLECTION_KID_ABELHA, new BigDecimal(PRECO_15_5), ID_DOIS);
+        this.contextoHelper.inserirDisco(ID_CINCO, DESCRICAO_UMA_NORA_PRA_CADA_DIA_MC_KEVINHO, new BigDecimal(PRECO_4_5), ID_UM);
     }
-
-    @Override
-    public ContextoHelper getContextoHelper() {
-        return this.contextoHelper;
-    }
-
 
 }
