@@ -1,4 +1,4 @@
-package br.com.beblue.cucumber.montador;
+package br.com.beblue.cucumber.util;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import java.math.BigDecimal;
 
 @Component
-@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class ContextoHelper {
 
     private JdbcTemplate jdbcTemplate;

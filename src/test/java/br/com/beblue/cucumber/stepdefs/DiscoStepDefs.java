@@ -1,9 +1,6 @@
 package br.com.beblue.cucumber.stepdefs;
 
-import br.com.beblue.cucumber.datatables.DiscoDataTable;
-import br.com.beblue.domain.Disco;
 import br.com.beblue.domain.dto.DiscoDTO;
-import br.com.beblue.service.DiscoService;
 import br.com.beblue.shared.JsonConverter;
 import cucumber.api.java.Before;
 import cucumber.api.java.pt.Dado;
@@ -14,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -23,33 +18,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class DiscoStepDefs extends StepDefs {
 
-    private final Logger log = LoggerFactory.getLogger(DiscoStepDefs.class);
-
-    @Inject
-    private DiscoService discoService;
-
     @Before
     public void inicializar() {
-        log.info("Limpando base.");
         contextoHelper.limparDadosTestes();
-        log.info("Configurando MockMvc: {}", discoService);
     }
 
     @Dado("^que foram inseridos generos a base de dados$")
     public void queForamInseridosGenerosAhBaseDeDados() throws Throwable {
-        this.contextoHelper.inserirGenero(1L, "POP", "pop");
-        this.contextoHelper.inserirGenero(2L, "MPB", "mpb");
-        this.contextoHelper.inserirGenero(3L, "CLASSIC", "classical");
-        this.contextoHelper.inserirGenero(4L, "ROCK", "rock");
+        montadorContexto.adicionarGeneros();
     }
 
     @E("^que foram inseridos discos$")
     public void queForamInseridosDiscos() throws Throwable {
-        this.contextoHelper.inserirDisco(1L, "AC/DC 101", new BigDecimal(20.5), 4L);
-        this.contextoHelper.inserirDisco(2L, "Enema Of The State - Blink 182", new BigDecimal(30.5), 4L);
-        this.contextoHelper.inserirDisco(3L, "Esplendor - Djavan", new BigDecimal(5.5), 2L);
-        this.contextoHelper.inserirDisco(4L, "iCollection - Kid Abelha", new BigDecimal(15.5), 2L);
-        this.contextoHelper.inserirDisco(5L, "Uma nora pra cada dia - MC Kevinho", new BigDecimal(4.5), 1L);
+        montadorContexto.adicionarDiscos();
     }
 
     @Dado("que o disco informado possua id {string}")
@@ -74,9 +55,9 @@ public class DiscoStepDefs extends StepDefs {
         this.actions.andExpect(status().isNotFound());
     }
 
-    @Dado("que o genero rock possua id {string} deveria retornar os {string} primeiros registros ordenados por {string}")
+    @Dado("que o genero informado possua id {string} deveria retornar os {string} primeiros registros ordenados por {string}")
     public void queOGeneroInformadoPossuaIdDeveriaRetornarOsPrimeirosRegistrosOrdenadosPorDescricao(String idGenero, String registros, String descricao) throws Exception {
-        this.actions = mockGet("/api/discos/genero?idGenero={idGenero}&page=0&size={registros}&sort={descricao},asc", idGenero, registros, descricao);
+        this.actions = mockGet("/api/discos/genero?idGenero={idGenero}&page=0&size={registros}&sort={descricao}", idGenero, registros, descricao);
         this.actions.andExpect(status().isOk());
     }
 

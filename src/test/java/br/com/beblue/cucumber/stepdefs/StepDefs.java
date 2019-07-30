@@ -1,7 +1,8 @@
 package br.com.beblue.cucumber.stepdefs;
 
 import br.com.beblue.CashbackApp;
-import br.com.beblue.cucumber.montador.ContextoHelper;
+import br.com.beblue.cucumber.montador.MontadorContexto;
+import br.com.beblue.cucumber.util.ContextoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -32,15 +35,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebAppConfiguration
 @ContextConfiguration(classes = CashbackApp.class)
 @AutoConfigureMockMvc
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public abstract class StepDefs {
+
+    @Inject
+    protected MontadorContexto montadorContexto;
+
+    @Inject
+    protected ContextoHelper contextoHelper;
 
     @Autowired
     private MockMvc restMockMvc;
 
     protected ResultActions actions;
-
-    @Inject
-    protected ContextoHelper contextoHelper;
 
     @Inject
     protected PageableHandlerMethodArgumentResolver pageableArgumentResolver;

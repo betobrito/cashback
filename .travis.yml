@@ -8,6 +8,10 @@ addons:
       - oracle-java9-installer
 before_install:
   - chmod +x mvnw
+
+services:
+  - docker
+
 deploy:
   provider: heroku
   api_key: 164b3b4f-06ef-4d70-af74-78f0d5b52f45
