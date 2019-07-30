@@ -25,7 +25,7 @@ public interface Constantes {
     interface Spotify {
         String CLIENT_ID = "ddd6a822f27646a0b36045641b29341d";
         String CLIENT_SECRET = "1fed1041ddfe4611970acf0e4b268ecf";
-        int LIMITE_REGISTROS_50 = 50;
+        Integer LIMITE_REGISTROS_50 = 50;
         String QUERY_SPOTIFY_ANO_2019 = "year:2019";
     }
 

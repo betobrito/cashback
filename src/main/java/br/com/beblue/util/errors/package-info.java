@@ -3,4 +3,4 @@
  *
  * More information on https://github.com/zalando/problem-spring-web
  */
-package br.com.beblue.web.rest.errors;
+package br.com.beblue.util.errors;

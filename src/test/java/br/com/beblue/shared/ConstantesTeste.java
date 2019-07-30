@@ -13,7 +13,7 @@ public interface ConstantesTeste {
     long ID_NOVE = 9L;
     long ID_DEZ = 10L;
     long ID_ONZE = 11L;
-    long ID_DOZE = 11L;
+    long ID_DOZE = 12L;
     long ID_TREZE = 13L;
     long ID_QUATORZE = 14L;
     long ID_QUINZE = 15L;
@@ -23,6 +23,13 @@ public interface ConstantesTeste {
     long ID_DEZENOVE = 19L;
     long ID_VINTE = 20L;
     long ID_VINTE_UM = 21L;
+    long ID_VINTE_DOIS = 22L;
+    long ID_VINTE_TRES = 23L;
+    long ID_VINTE_QUATRO = 24L;
+    long ID_VINTE_CINCO = 25L;
+    long ID_VINTE_SEIS = 26L;
+    long ID_VINTE_SETE = 27L;
+    long ID_VINTE_OITO = 28L;
 
     Integer DOMINGO = 1;
     Integer SEGUNDA = 2;
@@ -64,4 +71,6 @@ public interface ConstantesTeste {
     double TREZE_PORCENTO = 0.13;
     double DEZOITO_PORCENTO = 0.18;
     double QUARENTA_PORCENTO = 0.40;
+
+    Integer DUZENTOS_REGISTROS = 200;
 }

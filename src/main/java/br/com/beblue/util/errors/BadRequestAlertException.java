@@ -1,4 +1,4 @@
-package br.com.beblue.web.rest.errors;
+package br.com.beblue.util.errors;
 
 import org.zalando.problem.AbstractThrowableProblem;
 import org.zalando.problem.Status;

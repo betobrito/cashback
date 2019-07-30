@@ -1,4 +1,4 @@
-package br.com.beblue.web.rest.errors;
+package br.com.beblue.util.errors;
 
 @FunctionalInterface
 public interface SupplierThrowsException<T> {

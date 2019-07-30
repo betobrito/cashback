@@ -6,9 +6,7 @@ import br.com.beblue.cucumber.util.ContextoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,36 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 import static br.com.beblue.shared.JsonConverter.asJsonToClass;
-import static br.com.beblue.web.rest.TestUtil.convertObjectToJsonBytes;
-import static br.com.beblue.web.rest.TestUtil.executarBlocoComValorDefault;
+import static br.com.beblue.util.TestUtil.convertObjectToJsonBytes;
+import static br.com.beblue.util.TestUtil.executarBlocoComValorDefault;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest(properties = "spring.datasource.type=com.zaxxer.hikari.HikariDataSource")
+@AutoConfigureMockMvc
 @WebAppConfiguration
 @ContextConfiguration(classes = CashbackApp.class)
-@AutoConfigureMockMvc
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public abstract class StepDefs {
 
     @Inject
     protected MontadorContexto montadorContexto;
 
-    @Inject
-    protected ContextoHelper contextoHelper;
-
     @Autowired
     private MockMvc restMockMvc;
 
+    @Inject
+    protected ContextoHelper contextoHelper;
+
     protected ResultActions actions;
-
-    @Inject
-    protected PageableHandlerMethodArgumentResolver pageableArgumentResolver;
-
-    @Inject
-    protected MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     private ResultActions perform(Object content, MockHttpServletRequestBuilder request) throws Exception {
         return restMockMvc.perform(request.content(convertObjectToJsonBytes(content))

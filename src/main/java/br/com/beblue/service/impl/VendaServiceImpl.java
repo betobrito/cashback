@@ -5,11 +5,10 @@ import br.com.beblue.domain.dto.ParametroConsultaDTO;
 import br.com.beblue.repository.VendaRepository;
 import br.com.beblue.service.VendaService;
 import br.com.beblue.service.calculador.CalculadorCashback;
-import br.com.beblue.web.rest.errors.BadRequestAlertException;
+import br.com.beblue.util.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
