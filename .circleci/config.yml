@@ -41,5 +41,7 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
+      - run: mvn liquibase:update -Dliquibase.dropFirst=true
+
       # run tests!
       - run: mvn integration-test
