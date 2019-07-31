@@ -21,8 +21,7 @@ import java.util.Optional;
 import static br.com.beblue.service.VendaServiceTest.MSG_NAO_DEVERIA_PASSAR_AQUI;
 import static br.com.beblue.shared.ConstantesTeste.*;
 import static br.com.beblue.util.Constantes.MensagemSistema.MSG_ERRO_AO_RECUPERAR_DISCO_DE_ID_X;
-import static br.com.beblue.util.Constantes.MensagemSistema.MSG_PERMITIDO_APENAS_NOVAS_VENDAS;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -67,13 +66,28 @@ public class CalculadorCashbackTest {
     }
 
     @Test
-    public void deveriaChamarMetodoCalcularRetornandoValorDeQuarentaEhCincoCentavos() {
+    public void deveriaChamarMetodoCalcularRetornandoValorCashBackTotalDeQuarentaEhCincoCentavos() {
         when(discoRepositoryMock.findById(ID_UM)).thenReturn(optionalDisco);
         when(cashbackRepositoryMock.findCashbackByGeneroAndDiaSemana(any(Genero.class), any(DiaSemana.class))).thenReturn(cashback);
 
         calculadorCashback.calcular(this.venda);
 
+        assertFalse(venda.getItensVenda().isEmpty());
+        assertNotNull(venda.getValorTotalCashback());
         assertEquals(CASH_BACK_ESPERADO_0_45, venda.getValorTotalCashback().round(MathContext.DECIMAL32));
+    }
+
+    @Test
+    public void deveriaChamarMetodoCalcularRetornandoValorCashBackIndividualDeQuarentaEhCincoCentavos() {
+        when(discoRepositoryMock.findById(ID_UM)).thenReturn(optionalDisco);
+        when(cashbackRepositoryMock.findCashbackByGeneroAndDiaSemana(any(Genero.class), any(DiaSemana.class))).thenReturn(cashback);
+
+        calculadorCashback.calcular(this.venda);
+
+        assertFalse(venda.getItensVenda().isEmpty());
+        assertNotNull(venda.getItensVenda().get(0));
+        assertNotNull(venda.getItensVenda().get(0).getValorCashBack());
+        assertEquals(CASH_BACK_ESPERADO_0_45, venda.getItensVenda().get(0).getValorCashBack().round(MathContext.DECIMAL32));
     }
 
     @Test
