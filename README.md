@@ -71,7 +71,7 @@ Exemplo de corpo para realização da requisição post da funcionalidade acima
     }
 
 <b>É importante salientar que o spotify não dispobiliza em suas api's o filtro de albuns por genero, segue link do fórum
-o qual a mesma foi solicitada por um usuário e não foi atendida até hoje, vide comentários no link [Issue Spotify], logo
+o qual a mesma foi solicitada por um usuário e não foi atendida até hoje, vide comentários no link [Issue Spotify]. Logo
 a base foi alimentada de forma aleatória</b>  
 
 ## Desenvolvimento
