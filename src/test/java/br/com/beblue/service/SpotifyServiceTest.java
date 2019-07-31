@@ -46,7 +46,7 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void deveriaChamarMetodAlimentarBaseDelegandoParaOhServico() {
+    public void deveriaChamarMetodAlimentarBaseDelegandoParaOhRepositorio() {
         when(generoRepositoryMock.findAll()).thenReturn(generos);
 
         spotifyService.alimentarBaseDiscosPorGenero();
@@ -56,7 +56,7 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void deveriaChamarMetodAlimentarBaseDelegandoParaOhServicoLancandoRuntimeException() {
+    public void deveriaChamarMetodAlimentarBaseDelegandoParaOhRepositorioLancandoRuntimeException() {
         when(generoRepositoryMock.findAll()).thenReturn(generos);
         when(discoRepositoryMock.save(any(Disco.class))).thenThrow(new RuntimeException());
 
