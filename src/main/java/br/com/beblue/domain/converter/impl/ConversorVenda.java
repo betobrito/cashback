@@ -19,7 +19,7 @@ public class ConversorVenda implements Conversor<VendaDTO, Venda> {
 
     @Override
     public Venda converter(VendaDTO vendaDTO) {
-        return new Venda().itensVenda(conversorItemVenda.converter(vendaDTO.getItensVenda()));
+        return new Venda().id(vendaDTO.getId()).itensVenda(conversorItemVenda.converter(vendaDTO.getItensVenda()));
     }
 
 }

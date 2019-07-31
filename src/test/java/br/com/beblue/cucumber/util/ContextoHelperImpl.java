@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class ContextoHelperImpl implements ContextoHelper{
 
     private JdbcTemplate jdbcTemplate;

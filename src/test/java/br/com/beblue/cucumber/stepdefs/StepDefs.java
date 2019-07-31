@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @ContextConfiguration(classes = CashbackApp.class)
-@Transactional(propagation = Propagation.REQUIRES_NEW)
 public abstract class StepDefs {
 
     @Inject

@@ -81,13 +81,6 @@ public class FuncionalidadesStepDefs extends StepDefs {
         verificandoSeRetornoContemOsRegistrosEsperados(dataTable.column(0), discos);
     }
 
-    private void verificandoSeRetornoContemOsRegistrosEsperados(List<String> objetosEsperados, List<DiscoDTO> discos) {
-        for(int indice = 0; indice < objetosEsperados.size(); indice++){
-            String descricao = discos.get(indice).getDescricao();
-            assertTrue(String.format("Deveria ter retornado o objeto %s na lista", descricao), objetosEsperados.contains(descricao));
-        }
-    }
-
     @Entao("deveria retornar uma lista vazia")
     public void deveriaRetornarUmaListaVazia() throws Exception{
         this.actions.andExpect(MockMvcResultMatchers.jsonPath("$.[*]").isEmpty());
@@ -143,17 +136,6 @@ public class FuncionalidadesStepDefs extends StepDefs {
         assertTrue(retorno.contains(data));
     }
 
-    private ParametroConsultaDTO gerarParamentroConsultaDTO(String dataInicial, String dataFinal, String quantidadeRegistros) {
-        ParametroConsultaDTO parametroConsultaDTO = new ParametroConsultaDTO();
-        String[] dataInicialSplitada = dataInicial.split(HIFEN);
-        parametroConsultaDTO.setDataInicial(LocalDate.of(Integer.parseInt(dataInicialSplitada[0]), Integer.parseInt(dataInicialSplitada[1]), Integer.parseInt(dataInicialSplitada[2])));
-        String[] dataFinalSplitada = dataFinal.split(HIFEN);
-        parametroConsultaDTO.setDataFinal(LocalDate.of(Integer.parseInt(dataFinalSplitada[0]), Integer.parseInt(dataFinalSplitada[1]), Integer.parseInt(dataFinalSplitada[2])));
-        parametroConsultaDTO.setPagina(0);
-        parametroConsultaDTO.setTamanho(Integer.parseInt(quantidadeRegistros));
-        return parametroConsultaDTO;
-    }
-
     @Dado("que foi solicitada a realizacao de uma venda com dois discos do genero rock de 20,5 e 30,5")
     public void queFoiSolicitadaARealizacaoDeUmaVendaComDiscosDoGeneroRockDeE() throws Exception {
         VendaDTO vendaDTO = gerarVendaComItens();
@@ -161,12 +143,29 @@ public class FuncionalidadesStepDefs extends StepDefs {
         mockPost("/api/vendas/", vendaDTO);
     }
 
-    private VendaDTO gerarVendaComItens() {
-        List<ItemVendaDTO> itens = gerarListaComDoisDiscosGeneroRock();
+    @Entao("deveria calcular o cashback de quinze porcento e armazenar o valor de {string}")
+    public void deveriaCalcularOCashbackDeREArmazenarOValorDe(String valorTotalCashBack) throws Exception {
+        this.actions.andExpect(status().isCreated());
+        String retorno = this.actions.andReturn().getResponse().getContentAsString();
+        assertTrue(retorno.contains(valorTotalCashBack));
+    }
 
-        VendaDTO vendaDTO = new VendaDTO();
-        vendaDTO.setItensVenda(itens);
-        return vendaDTO;
+    @Dado("que foi solicitada a realizacao de uma venda informando um id de venda pre existente")
+    public void queFoiSolicitadaARealizacaoDeUmaVendaInformandoUmIdDeVendaPreExistente() throws Exception {
+        VendaDTO vendaDTO = gerarVendaComItens();
+        adicionarIdVendaPreExistente(vendaDTO);
+        mockPost("/api/vendas/", vendaDTO);
+    }
+
+    @Entao("deveria retornar um exception com mensagem {string}")
+    public void deveriaRetornarUmExceptionComMensagem(String mensagem) throws Exception {
+        this.actions.andExpect(status().isInternalServerError());
+        List<String> erros = obterMensagensDeErroRetornadaNoDetail();
+        assertTrue(erros.contains(mensagem));
+    }
+
+    private void adicionarIdVendaPreExistente(VendaDTO vendaDTO) {
+        vendaDTO.setId(ID_UM);
     }
 
     private List<ItemVendaDTO> gerarListaComDoisDiscosGeneroRock() {
@@ -186,10 +185,29 @@ public class FuncionalidadesStepDefs extends StepDefs {
         return itens;
     }
 
-    @Entao("deveria calcular o cashback de quinze porcento e armazenar o valor de {string}")
-    public void deveriaCalcularOCashbackDeREArmazenarOValorDe(String valorTotalCashBack) throws Exception {
-        this.actions.andExpect(status().isCreated());
-        String retorno = this.actions.andReturn().getResponse().getContentAsString();
-        assertTrue(retorno.contains(valorTotalCashBack));
+    private VendaDTO gerarVendaComItens() {
+        List<ItemVendaDTO> itens = gerarListaComDoisDiscosGeneroRock();
+
+        VendaDTO vendaDTO = new VendaDTO();
+        vendaDTO.setItensVenda(itens);
+        return vendaDTO;
+    }
+
+    private ParametroConsultaDTO gerarParamentroConsultaDTO(String dataInicial, String dataFinal, String quantidadeRegistros) {
+        ParametroConsultaDTO parametroConsultaDTO = new ParametroConsultaDTO();
+        String[] dataInicialSplitada = dataInicial.split(HIFEN);
+        parametroConsultaDTO.setDataInicial(LocalDate.of(Integer.parseInt(dataInicialSplitada[0]), Integer.parseInt(dataInicialSplitada[1]), Integer.parseInt(dataInicialSplitada[2])));
+        String[] dataFinalSplitada = dataFinal.split(HIFEN);
+        parametroConsultaDTO.setDataFinal(LocalDate.of(Integer.parseInt(dataFinalSplitada[0]), Integer.parseInt(dataFinalSplitada[1]), Integer.parseInt(dataFinalSplitada[2])));
+        parametroConsultaDTO.setPagina(0);
+        parametroConsultaDTO.setTamanho(Integer.parseInt(quantidadeRegistros));
+        return parametroConsultaDTO;
+    }
+
+    private void verificandoSeRetornoContemOsRegistrosEsperados(List<String> objetosEsperados, List<DiscoDTO> discos) {
+        for(int indice = 0; indice < objetosEsperados.size(); indice++){
+            String descricao = discos.get(indice).getDescricao();
+            assertTrue(String.format("Deveria ter retornado o objeto %s na lista", descricao), objetosEsperados.contains(descricao));
+        }
     }
 }
