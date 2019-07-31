@@ -7,17 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: postgres:11.3
-        environment:
-          - POSTGRES_USER=cashback
-          - POSTGRES_PASSWORD=
-        ports:
-          - 5432:5432
+      - image: circleci/openjdk:9.0.4-jdk
 
     working_directory: ~/repo
       # Customize the JVM maximum heap limit
