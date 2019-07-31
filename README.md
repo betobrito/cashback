@@ -1,107 +1,124 @@
 # cashback
 
-This application was generated using JHipster 6.1.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.1.2](https://www.jhipster.tech/documentation-archive/v6.1.2).
+Esta aplicação foi desenvolvida para submissão da vaga de Engenheiro BackEnd Sênior da empresa Beblue.
 
-This is a "microservice" application intended to be part of a microservice architecture, please refer to the [Doing microservices with JHipster][] page of the documentation for more information.
+## Link's disponíveis para teste da aplicação
 
-This application is configured for Service Discovery and Configuration with the JHipster-Registry. On launch, it will refuse to start if it is not able to connect to the JHipster-Registry at [http://localhost:8761](http://localhost:8761). For more information, read our documentation on [Service Discovery and Configuration with the JHipster-Registry][].
+A aplicação foi disponibilizada no link abaixo para testes:
 
-## Development
+    https://cashback-beblue.herokuapp.com
+    
+A mesma foi aplicada a uma ferramenta de Integração continua Circle CI através do link abaixo, onde na mesma executa 
+passo a passo o processo de integração continua, baixando o código do repositório git, compilando, rodando os testes
+(levantando o docker) e por fim concluido com sucesso, disponibilizará no serviço Heroku acima, sua versão "estável".
 
-To start your application in the dev profile, simply run:
+    https://circleci.com/gh/betobrito/cashback
+    
+Abaixo está sendo disponibilizado alguns exemplos de uso da aplicação utilizando uma ferramenta para requisições, 
+no meu caso foi utilizada a Postman. É importante salientar que para um melhor teste, os link's abaixo foram removidos 
+da segurança aplicada pelo spring, ficando assim sem a necessidade da utilização do token JWT.
 
-    ./mvnw
+<b>[GET] Funcionalidade de alimentar base de disco usando base do Spotify</b>
 
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
+    https://cashback-beblue.herokuapp.com/api/spotify
 
-## Building for production
+<b>[GET] Funcionalidade de consultar disco por id</b>
 
-### Packaging as jar
+    http://cashback-beblue.herokuapp.com/api/discos/1001
 
-To build the final jar and optimize the cashback application for production, run:
+<b>[GET] Funcionalidade de consultar disco por genero paginada e ordenando por descrição</b>
 
-    ./mvnw -Pprod clean verify
+    https://cashback-beblue.herokuapp.com/api/discos/genero?idGenero=4&page=0&size=10&sort=descricao
+    
+<b>[POST] Funcionalidade de realizar vendas</b>
 
-To ensure everything worked, run:
+    https://cashback-beblue.herokuapp.com/api/vendas/
+    
+Exemplo de corpo para realização da requisição post da funcionalidade acima
+    
+    {
+      "itensVenda": [
+            {
+                "disco": {
+                    "id": 1001
+                },
+                "quantidade": 2
+            },
+            {
+                "disco": {
+                    "id": 1002
+                },
+                "quantidade": 1
+            }
+        ]
+    }
+    
+<b>[GET] Funcionalidade de consultar vendas por id</b>
 
-    java -jar target/*.jar
+    https://cashback-beblue.herokuapp.com/api/vendas/1401
+    
+<b>[POST] Funcionalidade de consultar vendas por periodo de forma paginada e ordenada por data de venda</b>
 
-Refer to [Using JHipster in production][] for more details.
+    https://cashback-beblue.herokuapp.com/api/vendas/periodo
+    
+Exemplo de corpo para realização da requisição post da funcionalidade acima
 
-### Packaging as war
+    {
+      "dataInicial": "2019-07-27",
+      "dataFinal": "2019-07-31",
+      "pagina": 0,
+      "tamanho": 10
+    }
 
-To package your application as a war in order to deploy it to an application server, run:
+<b>É importante salientar que o spotify não dispobiliza em suas api's o filtro de albuns por genero, segue link do fórum
+o qual a mesma foi solicitada por um usuário e não foi atendida até hoje, vide comentários no link [Issue Spotify], logo
+a base foi alimentada de forma aleatória</b>  
 
-    ./mvnw -Pprod,war clean verify
+## Desenvolvimento
 
-## Testing
+Para baixar as dependências do projeto basta executar o comando abaixo:
 
-To launch your application's tests, run:
-
-    ./mvnw verify
-
-For more information, refer to the [Running tests page][].
-
-### Code quality
-
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
-
-```
-docker-compose -f src/main/docker/sonar.yml up -d
-```
-
-You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
-
-Then, run a Sonar analysis:
-
-```
-./mvnw -Pprod clean verify sonar:sonar
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```
-./mvnw initialize sonar:sonar
-```
-
-or
-
-For more information, refer to the [Code quality page][].
-
-## Using Docker to simplify development (optional)
-
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
-
-For example, to start a postgresql database in a docker container, run:
+    mvn clean install -DskipTests=true
+    
+Para rodar testes ou rodar a aplicação é <b>necessário que tenha levantado a imagem docker do postgres e do registry</b> para 
+que o projeto possa se registrar e ficar disponível para uso:
 
     docker-compose -f src/main/docker/postgresql.yml up -d
+   
+   e também
+   
+    docker-compose -f src/main/docker/jhipster-registry.yml up -d
+    
+Após esse processo, caso queira rodar a api ou os testes é necessário gerar o banco de dados, utilizando o liquibase, 
+com o seguinte comando:
 
-To stop it and remove the container, run:
+    mvn liquibase:update -Dliquibase.dropFirst=true
 
-    docker-compose -f src/main/docker/postgresql.yml down
+Após os passos acima a api pode ser startada via linha de comando, executar na raiz do projeto o comando a seguir:
 
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
+    ./mvnw - em caso de sistema linux
+    
+   Ou apenas:
+    
+    mvnw - em caso de sistema windows
+    
+Para o desenvolvimento foi utilizado framework [Jhipster].
 
-    ./mvnw -Pprod verify jib:dockerBuild
+Caso queira gerar um war do projeto basta executar o comando abaixo:
 
-Then run:
+### Empacotando para war
 
-    docker-compose -f src/main/docker/app.yml up -d
+    ./mvnw -Pdev,war clean verify
 
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+## Execução dos testes
 
-## Continuous Integration (optional)
+Para execução dos testes :
 
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+    ./mvnw verify
+    
+## Documentos não funcionais
 
-[jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 6.1.2 archive]: https://www.jhipster.tech/documentation-archive/v6.1.2
-[doing microservices with jhipster]: https://www.jhipster.tech/documentation-archive/v6.1.2/microservices-architecture/
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.1.2/development/
-[service discovery and configuration with the jhipster-registry]: https://www.jhipster.tech/documentation-archive/v6.1.2/microservices-architecture/#jhipster-registry
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v6.1.2/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v6.1.2/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v6.1.2/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v6.1.2/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v6.1.2/setting-up-ci/
+Foi disponibilizado arquivo html com relatório de execução dos testes na pasta arquivos auxiliares.
+
+[Jhipster]: https://www.jhipster.tech/documentation-archive/v6.1.2/development/
+[Issue Spotify]: https://github.com/spotify/web-api/issues/1122
