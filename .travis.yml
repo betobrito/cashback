@@ -10,7 +10,7 @@ services:
   - docker
 before_install:
   - chmod +x mvnw
-  - docker rm $(docker ps -qa)
+  - docker ps
   - docker-compose -f src/main/docker/postgresql.yml up -d
 
 deploy:
