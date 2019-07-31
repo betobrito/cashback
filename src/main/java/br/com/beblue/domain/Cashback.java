@@ -65,6 +65,11 @@ public class Cashback implements Serializable {
         this.porcentagem = porcentagem;
     }
 
+    public Cashback porcentagem(BigDecimal porcentagem) {
+        this.porcentagem = porcentagem;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
