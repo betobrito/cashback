@@ -25,8 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class FuncionalidadesStepDefs extends StepDefs {
 
-    public static final String HIFEN = "-";
-
     @Before
     public void inicializar() {
         contextoHelper.limparDadosTestes();

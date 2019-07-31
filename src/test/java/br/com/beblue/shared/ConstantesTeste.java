@@ -75,4 +75,6 @@ public interface ConstantesTeste {
     Integer DUZENTOS_REGISTROS = 200;
 
     Integer QUANTIDADE_UM = 1;
+
+    String HIFEN = "-";
 }
