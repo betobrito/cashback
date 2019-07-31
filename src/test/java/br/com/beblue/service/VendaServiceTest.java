@@ -1,7 +1,6 @@
 package br.com.beblue.service;
 
 import br.com.beblue.domain.Venda;
-import br.com.beblue.domain.converter.impl.ConversorVenda;
 import br.com.beblue.domain.dto.ParametroConsultaDTO;
 import br.com.beblue.domain.dto.VendaDTO;
 import br.com.beblue.repository.VendaRepository;
@@ -11,30 +10,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static br.com.beblue.shared.ConstantesTeste.ID_UM;
+import static br.com.beblue.util.Constantes.MensagemSistema.MSG_PERMITIDO_APENAS_NOVAS_VENDAS;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.postgresql.hostchooser.HostRequirement.any;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VendaServiceTest {
 
+    public static final String MSG_NAO_DEVERIA_PASSAR_AQUI = "Não deveria passar aqui.";
     @Mock
     private VendaRepository vendaRepositoryMock;
 
@@ -103,6 +96,16 @@ public class VendaServiceTest {
         Page<Venda> retorno = vendaService.consultarVendasPorPeriodo(parametroConsultaDTO);
 
         assertEquals(Page.empty(), retorno);
+    }
+
+    @Test
+    public void deveriaChamarMetodoRealizarVendaRetornandoExceptionPermitidoApenasNovasVendas() {
+        try {
+            vendaService.realizarVenda(venda.id(ID_UM));
+            fail(MSG_NAO_DEVERIA_PASSAR_AQUI);
+        } catch (RuntimeException e) {
+            assertEquals(MSG_PERMITIDO_APENAS_NOVAS_VENDAS, e.getMessage());
+        }
     }
 
 }
