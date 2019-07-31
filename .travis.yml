@@ -6,11 +6,11 @@ addons:
   apt:
     packages:
       - oracle-java9-installer
-before_install:
-  - chmod +x mvnw
-
 services:
   - docker
+before_install:
+  - chmod +x mvnw
+  - docker-compose -f postgresql.yml up -d
 
 deploy:
   provider: heroku
