@@ -103,7 +103,7 @@ Após os passos acima a api pode ser startada via linha de comando, executar na 
     
     mvnw - em caso de sistema windows
     
-Para o desenvolvimento foi utilizado framework [Jhipster].
+Para o desenvolvimento foi utilizado framework [Jhipster]. Com a stack do spring boot, hibernate / jpa. 
 
 Caso queira gerar um war do projeto basta executar o comando abaixo:
 
