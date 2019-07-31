@@ -35,8 +35,6 @@ import static org.postgresql.hostchooser.HostRequirement.any;
 @RunWith(MockitoJUnitRunner.class)
 public class VendaServiceTest {
 
-    public static final String MSG_NAO_DEVERIA_PASSAR_POR_ESTE_METODO = "Não deveria passar por este método.";
-    public static final String STRING_VAZIA = "";
     @Mock
     private VendaRepository vendaRepositoryMock;
 
@@ -60,7 +58,13 @@ public class VendaServiceTest {
         this.vendas = new ArrayList<>();
         vendas.add(venda);
         this.paginacaoVendas = new PageImpl<>(vendas);
+        gerarParametroDTO();
+    }
+
+    private void gerarParametroDTO() {
         this.parametroConsultaDTO = new ParametroConsultaDTO();
+        this.parametroConsultaDTO.setPagina(0);
+        this.parametroConsultaDTO.setTamanho(10);
     }
 
     @Test
@@ -81,41 +85,24 @@ public class VendaServiceTest {
         assertEquals(Optional.empty(), resultado);
     }
 
-//    @Test
-//    public void deveriaChamarMetodoConsultarVendasPorPeriodoDelegandoParaOhRepositorioRetornandoListaComVendas() {
-//        when(vendaRepositoryMock.findVendasByDataVendaBetweenOrderByDataVendaDesc(LocalDate.now(), LocalDate.now(), new PageRequest(0, 10))).thenReturn(paginacaoVendas);
-//
-//        Page<Venda> resultado = vendaService.consultarVendasPorPeriodo(parametroConsultaDTO);
-//
-//        assertEquals(paginacaoVendas, resultado);
-//    }
-//
-//    @Test
-//    public void deveriaChamarMetodoConsultarVendasPorPeriodoDelegandoParaOhServicoRetornandoListaSemVendas() {
-//        atribuirPaginacaoVaziaIhLimpandoListaVendas();
-//        when(vendaRepositoryMock.consultarVendasPorPeriodo(parametroConsultaDTO)).thenReturn(paginacaoVendas);
-//
-//        ResponseEntity<List<Venda>> resultado = vendaService.consultarVendasPorPeriodo(parametroConsultaDTO);
-//
-//        assertEquals(HttpStatus.OK, resultado.getStatusCode());
-//        assertEquals(vendas, resultado.getBody());
-//    }
-//
-//    private void atribuirPaginacaoVaziaIhLimpandoListaVendas() {
-//        this.paginacaoVendas = Page.empty();
-//        vendas.clear();
-//    }
-//
-//    @Test
-//    public void deveriaChamarMetodoRealizarVendaDelegandoParaOhServicoRetornandoVenda() {
-//        try {
-//            when(conversorVendaMock.converter(vendaDTO)).thenReturn(venda);
-//            when(vendaRepositoryMock.realizarVenda(venda)).thenReturn(venda);
-//            ResponseEntity<Venda> resultado = vendaService.realizarVenda(vendaDTO);
-//            assertEquals(HttpStatus.CREATED, resultado.getStatusCode());
-//            assertSame(venda, resultado.getBody());
-//        } catch (URISyntaxException e) {
-//            fail(MSG_NAO_DEVERIA_PASSAR_POR_ESTE_METODO +e.getMessage());
-//        }
-//    }
+
+    @Test
+    public void deveriaChamarMetodoConsultarVendasPorPeriodoDelegandoParaOhRepositorioRetornandoVendas() {
+        when(vendaRepositoryMock.findVendasByDataVendaBetweenOrderByDataVendaDesc(parametroConsultaDTO.getDataInicial(), parametroConsultaDTO.getDataFinal(), PageRequest.of(0, 10))).thenReturn(paginacaoVendas);
+
+        Page<Venda> retorno = vendaService.consultarVendasPorPeriodo(parametroConsultaDTO);
+
+        assertEquals(vendas, retorno.getContent());
+    }
+
+    @Test
+    public void deveriaChamarMetodoConsultarVendasPorPeriodoDelegandoParaOhRepositorioRetornandoSemVendas() {
+        this.paginacaoVendas = Page.empty();
+        when(vendaRepositoryMock.findVendasByDataVendaBetweenOrderByDataVendaDesc(parametroConsultaDTO.getDataInicial(), parametroConsultaDTO.getDataFinal(), PageRequest.of(0, 10))).thenReturn(paginacaoVendas);
+
+        Page<Venda> retorno = vendaService.consultarVendasPorPeriodo(parametroConsultaDTO);
+
+        assertEquals(Page.empty(), retorno);
+    }
+
 }
