@@ -2,6 +2,7 @@ package br.com.beblue.cucumber.stepdefs;
 
 import br.com.beblue.domain.Venda;
 import br.com.beblue.domain.dto.DiscoDTO;
+import br.com.beblue.domain.dto.ItemVendaDTO;
 import br.com.beblue.domain.dto.ParametroConsultaDTO;
 import br.com.beblue.domain.dto.VendaDTO;
 import br.com.beblue.shared.JsonConverter;
@@ -14,10 +15,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.beblue.shared.ConstantesTeste.DUZENTOS_REGISTROS;
-import static br.com.beblue.shared.ConstantesTeste.QUANTIDADE_UM;
+import static br.com.beblue.shared.ConstantesTeste.*;
 import static br.com.beblue.util.Constantes.MensagemSistema.MSG_BASE_ALIMENTADA_COM_SUCESSO;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -153,5 +154,44 @@ public class FuncionalidadesStepDefs extends StepDefs {
         parametroConsultaDTO.setPagina(0);
         parametroConsultaDTO.setTamanho(Integer.parseInt(quantidadeRegistros));
         return parametroConsultaDTO;
+    }
+
+    @Dado("que foi solicitada a realizacao de uma venda com dois discos do genero rock de 20,5 e 30,5")
+    public void queFoiSolicitadaARealizacaoDeUmaVendaComDiscosDoGeneroRockDeE() throws Exception {
+        VendaDTO vendaDTO = gerarVendaComItens();
+
+        mockPost("/api/vendas/", vendaDTO);
+    }
+
+    private VendaDTO gerarVendaComItens() {
+        List<ItemVendaDTO> itens = gerarListaComDoisDiscosGeneroRock();
+
+        VendaDTO vendaDTO = new VendaDTO();
+        vendaDTO.setItensVenda(itens);
+        return vendaDTO;
+    }
+
+    private List<ItemVendaDTO> gerarListaComDoisDiscosGeneroRock() {
+        List<ItemVendaDTO> itens = new ArrayList<>();
+        DiscoDTO discoUm = new DiscoDTO();
+        discoUm.setId(ID_UM);
+        DiscoDTO discoDois = new DiscoDTO();
+        discoDois.setId(ID_DOIS);
+        ItemVendaDTO itemVendaUm = new ItemVendaDTO();
+        itemVendaUm.setDisco(discoUm);
+        itemVendaUm.setQuantidade(QUANTIDADE_UM);
+        ItemVendaDTO itemVendaDois = new ItemVendaDTO();
+        itemVendaDois.setDisco(discoDois);
+        itemVendaDois.setQuantidade(QUANTIDADE_UM);
+        itens.add(itemVendaUm);
+        itens.add(itemVendaDois);
+        return itens;
+    }
+
+    @Entao("deveria calcular o cashback de quinze porcento e armazenar o valor de {string}")
+    public void deveriaCalcularOCashbackDeREArmazenarOValorDe(String valorTotalCashBack) throws Exception {
+        this.actions.andExpect(status().isCreated());
+        String retorno = this.actions.andReturn().getResponse().getContentAsString();
+        assertTrue(retorno.contains(valorTotalCashBack));
     }
 }
